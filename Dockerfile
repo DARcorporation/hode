@@ -136,10 +136,16 @@ WORKDIR /tmp
 RUN pip3 install --no-cache-dir openmdao platypus-opt psutil
 
 # Install pyOptSparse
-RUN wget -O pyoptsparse.zip https://github.com/mdolab/pyoptsparse/archive/master.zip && \
+RUN apt-get -qq update && \
+    apt-get -y install swig unzip && \
+    wget -O pyoptsparse.zip https://github.com/mdolab/pyoptsparse/archive/master.zip && \
     unzip pyoptsparse.zip && \
     cd pyoptsparse-master && \
     python3 setup.py install && \
-    rm -rf /tmp/*
+    apt-get -y purge swig unzip && \
+    apt-get -y autoremove && \
+    apt-get clean && \
+    rm -rf /tmp/* && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 WORKDIR /root
