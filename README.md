@@ -10,4 +10,4 @@ The Docker container contains working installations of MPI (mpich) and PETSc.
  OpenMDAO, pyOptSparse, and Platypus are installed for Python 3.
 
 # Credits
-Development of this container performed at [DARcorporation](https://www.darcorp.com/).
+Development of this container was performed at [DARcorporation](https://www.darcorp.com/).
