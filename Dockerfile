@@ -133,7 +133,7 @@ LABEL description="HPC Optimization Development Environment (HODE)"
 WORKDIR /tmp
 
 # Install OpenMDAO, Platupus, and psutil
-RUN pip3 install --no-cache-dir openmdao platypus-opy psutil
+RUN pip3 install --no-cache-dir openmdao platypus-opt psutil
 
 # Install pyOptSparse
 RUN wget -O pyoptsparse.zip https://github.com/mdolab/pyoptsparse/archive/master.zip && \
