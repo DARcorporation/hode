@@ -25,7 +25,7 @@ class Rosen(om.ExplicitComponent):
 
     def _declare_options(self):
         super()._declare_options()
-        self.options.declare('sleep_time', default=1e-4, lower=0)
+        self.options.declare('sleep_time', default=1e-2, lower=0)
         self.options.declare('dim', default=2, lower=1)
         self.options.declare('nan_points', default=None, types=list, allow_none=True)
         self.options.declare('nan_range', default=1e-4, lower=0)
@@ -95,7 +95,6 @@ def solve(dim=2, bits=31, n_nan_points=100, nan_range=5e-2, plot=False):
 
     prob.set_solver_print(2)
     prob.setup()
-    prob.model.obj.options['sleep_time'] = 0.
     prob.run_model()
 
     t0 = time.time()
