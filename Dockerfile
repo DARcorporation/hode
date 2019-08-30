@@ -53,10 +53,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
         ninja-build \
         pkg-config \
         python3-dev \
-        python3-matplotlib \
-        python3-numpy \
         python3-pip \
-        python3-scipy \
         python3-setuptools && \
     apt-get -y install \
         doxygen \
@@ -68,8 +65,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Install mpi4py
-RUN pip3 install --no-cache-dir mpi4py
+# Install numpy, scipy, and mpi4py
+# Note: numpy and scipy where originally installed using apt-get, but they were older versions. This grabs the new ones.
+RUN pip3 install --no-cache-dir numpy scipy mpi4py
 
 WORKDIR /root
 
