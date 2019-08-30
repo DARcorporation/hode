@@ -26,6 +26,8 @@ LABEL description="Base image for HPC Optimization Development Environment (HODE
 USER root
 WORKDIR /tmp
 
+ENV PYTHONIOENCODING "UTF-8"
+
 # Install required packages available from apt-get
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get -qq update && \
