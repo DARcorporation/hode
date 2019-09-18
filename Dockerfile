@@ -19,7 +19,7 @@ ARG MAKEFLAGS
 ARG PETSC_OPTFLAGS="-02 -g"
 ARG PETSC_DEBUGGING="yes"
 
-FROM continuumio/miniconda3 as base
+FROM ubuntu:18.04 as base
 LABEL maintainer="D. de Vries <daniel.devries@darcorop.com>"
 LABEL description="Base image for HPC Optimization Development Environment (HODE)"
 
@@ -51,7 +51,10 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
         libopenblas-dev \
         mpich \
         ninja-build \
-        pkg-config && \
+        pkg-config \
+        python3-dev \
+        python3-pip \
+        python3-setuptools && \
     apt-get -y install \
         doxygen \
         git \
@@ -62,15 +65,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Update conda and add conda-forge
-RUN conda update -n base -c defaults conda
-RUN conda config --add channels conda-forge
-
-# Install/upgrade numpy, scipy, and mpi4py
-RUN pip install --no-cache-dir --upgrade numpy scipy mpi4py
-
-# Clean conda stuff
-RUN conda clean -afy
+# Install numpy, scipy, and mpi4py
+# Note: numpy and scipy where originally installed using apt-get, but they were older versions. This grabs the new ones.
+RUN pip3 install --no-cache-dir numpy scipy mpi4py
 
 WORKDIR /root
 
@@ -123,7 +120,7 @@ RUN apt-get -qq update && \
 ENV PETSC_DIR=/usr/local/petsc
 
 # Install petsc4py
-RUN pip install --no-cache-dir petsc4py==${PETSC4PY_VERSION}
+RUN pip3 install --no-cache-dir petsc4py==${PETSC4PY_VERSION}
 
 WORKDIR /root
 
@@ -136,7 +133,7 @@ LABEL description="HPC Optimization Development Environment (HODE)"
 WORKDIR /tmp
 
 # Install OpenMDAO, Platupus, and psutil
-RUN pip install --no-cache-dir openmdao platypus-opt psutil
+RUN pip3 install --no-cache-dir openmdao platypus-opt psutil
 
 # Install pyOptSparse
 RUN apt-get -qq update && \
